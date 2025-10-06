@@ -6,6 +6,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split as tts
 from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
+from sklearn.ensemble import RandomForestClassifier
 
 song_data = pd.read_csv('data/selected_data.csv')
 
@@ -51,5 +52,5 @@ knn = KNeighborsClassifier(n_neighbors=27)
 knn.fit(x_train_pca, y_train)
 y_pred = knn.predict(x_test_pca)
 
-print('Accuracy: ' + str(accuracy_score(y_test, y_pred)))
-print('F1 Score: ' + str(f1_score(y_test, y_pred)))
+print('KNN Accuracy: ' + str(accuracy_score(y_test, y_pred)))
+print('KNN F1 Score: ' + str(f1_score(y_test, y_pred)))
