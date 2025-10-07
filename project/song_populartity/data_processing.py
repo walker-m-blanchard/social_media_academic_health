@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 
 song_data = pd.read_csv('data/hf_data.csv')
@@ -21,6 +20,6 @@ song_data = pd.concat([unpopular_songs, popular_songs])
 
 # Selects attributes which are of interest
 song_data = song_data[['danceability', 'energy', 'key', 'mode', 'speechiness', 'instrumentalness', 'liveness', 'tempo',
-                      'loudness', 'acousticness', 'valence', 'duration_ms', 'Is_Popular', 'track_genre']]
+                      'loudness', 'acousticness', 'valence', 'duration_ms', 'Is_Popular', 'track_genre', 'lyrics']]
 
 song_data.to_csv('data/song_data.csv', index=False)
