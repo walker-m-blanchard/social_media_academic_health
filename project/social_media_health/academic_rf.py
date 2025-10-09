@@ -26,12 +26,6 @@ y_pred = rf.predict(x_test)
 print('RF Accuracy: ' + str(accuracy_score(y_test, y_pred)))
 print('RF F1 Score: ' + str(f1_score(y_test, y_pred)))
 
-# Displays decision tree produced by random forest
-tree = rf.estimators_[0]
-plot_tree(tree, feature_names=x_data.columns,
-          class_names=['Does Not Affect Academics', 'Affects Academics'], filled=True)
-plt.show()
-
 # Verifies accuracy of random forest across k-fold, with 5 & 10 folds used
 kf = KFold(n_splits=5, shuffle=True, random_state=42)
 scores = cross_val_score(rf, x_data, y_data, cv=kf, scoring='f1')
@@ -46,3 +40,12 @@ scores = cross_val_score(rf, x_data, y_data, cv=kf, scoring='f1')
 print(f"Individual 10-fold scores: {scores}")
 print(f"Mean cross-validation score: {np.mean(scores):.4f}")
 print(f"Standard deviation of scores: {np.std(scores):.4f}")
+
+# Fits and displays final decision tree based on entire dataset
+final_model = RandomForestClassifier(n_estimators=100, random_state=42)
+final_model.fit(x_data, y_data)
+
+final_tree = final_model.estimators_[0]
+plot_tree(final_tree, feature_names=x_data.columns,
+          class_names=['Does Not Affect Academics', 'Affects Academics'], filled=True)
+plt.show()
