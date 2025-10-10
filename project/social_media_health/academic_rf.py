@@ -14,7 +14,7 @@ student_data.drop(columns=['Student_ID', 'Country', 'Age'], inplace=True)
 
 # Drops Affects Academic Performance since it will be used as class
 # Drops Mental Health Score since it is a subjective self-assessment
-x_data = student_data.drop(columns=['Affects_Academic_Performance', 'Mental_Health_Score', 'Addicted_Score'])
+x_data = student_data.drop(columns=['Affects_Academic_Performance', 'Mental_Health_Score'])
 y_data = student_data['Affects_Academic_Performance']
 
 x_train, x_test, y_train, y_test = tts(x_data, y_data, test_size=0.2, random_state=42, stratify=y_data)
@@ -51,6 +51,7 @@ plot_tree(final_tree, feature_names=x_data.columns,
           class_names=['Does Not Affect Academics', 'Affects Academics'], filled=True)
 plt.show()
 
+# Calculates and displays the importance of features in the RF model
 importances = pd.Series(final_model.feature_importances_, index=x_data.columns).sort_values(ascending=False)
 
 plt.figure(figsize=(18,12))
@@ -60,6 +61,7 @@ plt.xlabel('Importance')
 plt.ylabel('Features')
 plt.show()
 
+# Calculates and prints a more complete version of accuracy measures
 print("Classification Report:")
 print(classification_report(y_test, y_pred))
 
