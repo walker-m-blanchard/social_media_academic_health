@@ -30,7 +30,7 @@ data = pd.read_csv('data/encoded_student_data.csv')
 data.drop(columns=['Student_ID', 'Country', 'Age'], inplace=True)
 
 # Separate features (X) and label (y)
-X = data.drop(columns=['Affects_Academic_Performance', 'Mental_Health_Score'])
+X = data.drop(columns=['Affects_Academic_Performance', 'Mental_Health_Score', 'Addicted_Score'])
 y = data['Affects_Academic_Performance']
 
 # Scale features
