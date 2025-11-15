@@ -7,12 +7,14 @@ from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
 from collections import Counter
 
+SEED = 42
+
 student_data = pd.read_csv('data/encoded_student_data.csv')
 
 x_data = student_data[['Addicted_Score']]
 y_data = student_data[['Mental_Health_Score']]
 
-x_train, x_test, y_train, y_test = tts(x_data, y_data, test_size=0.2, random_state=42)
+x_train, x_test, y_train, y_test = tts(x_data, y_data, test_size=0.2, random_state=SEED)
 
 model = LinearRegression()
 model.fit(x_train, y_train)
@@ -20,14 +22,14 @@ y_pred = model.predict(x_test)
 
 print('R2 Score: ' + str(r2_score(y_test, y_pred)))
 
-kf = KFold(n_splits=5, shuffle=True, random_state=42)
+kf = KFold(n_splits=5, shuffle=True, random_state=SEED)
 scores = cross_val_score(model, x_data, y_data, cv=kf, scoring='r2')
 
 print(f"Individual 5-fold scores: {scores}")
 print(f"Mean cross-validation score: {np.mean(scores):.4f}")
 print(f"Standard deviation of scores: {np.std(scores):.4f}")
 
-kf = KFold(n_splits=10, shuffle=True, random_state=42)
+kf = KFold(n_splits=10, shuffle=True, random_state=SEED)
 scores = cross_val_score(model, x_data, y_data, cv=kf, scoring='r2')
 
 print(f"Individual 10-fold scores: {scores}")
