@@ -1,10 +1,11 @@
 import pandas as pd
 import numpy as np
+import seaborn as sns
+from matplotlib import pyplot as plt
 from sklearn.metrics import r2_score, accuracy_score, f1_score
 from sklearn.model_selection import train_test_split as tts
 from sklearn.model_selection import KFold, cross_val_score
 from sklearn.linear_model import LinearRegression, LogisticRegression
-from sklearn.preprocessing import StandardScaler
 
 SEED = 42
 
@@ -17,8 +18,6 @@ y_labels = ['Affects_Academic_Performance', 'Mental_Health_Score', 'Addicted_Sco
 for i in range(2):
     if i == 0:
         x_data = student_data.drop(columns=['Affects_Academic_Performance', 'Mental_Health_Score', 'Addicted_Score'])
-        scaler = StandardScaler()
-        x_data = scaler.fit_transform(x_data)
         print('Original Data\n--------------------')
     else:
         x_data = pd.read_csv('data/pca_transformed_x.csv')
@@ -56,3 +55,11 @@ for i in range(2):
             print(f"Individual 10-fold scores: {scores}")
             print(f"Mean cross-validation score: {np.mean(scores):.4f}")
             print(f"Standard deviation of scores: {np.std(scores):.4f}")
+
+            importances = pd.Series(model.coef_[0], index=x_data.columns).sort_values(ascending=False)
+            plt.figure(figsize=(12, 8))
+            sns.barplot(x=importances.head(10), y=importances.head(10).index)
+            plt.title('Top 10 Feature Importance for Logistic Regression')
+            plt.xlabel('Importance')
+            plt.ylabel('Features')
+            plt.show()
