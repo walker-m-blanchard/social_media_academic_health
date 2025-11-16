@@ -8,12 +8,12 @@ import matplotlib.pyplot as plt
 
 SEED = 42
 
-student_data = pd.read_csv('data/encoded_student_data.csv')
+student_data = pd.read_csv('../data/encoded_student_data.csv')
 
 x_data = student_data[['Addicted_Score']]
 y_data = student_data[['Affects_Academic_Performance']]
 
-x_train, x_test, y_train, y_test = tts(x_data, y_data, test_size=0.2, random_state=SEED, stratify=y_data)
+x_train, x_test, y_train, y_test = tts(x_data, y_data, test_size=0.2, random_state=SEED)
 
 model = LogisticRegression(random_state=SEED)
 model.fit(x_train, y_train)
@@ -21,13 +21,6 @@ y_pred = model.predict(x_test)
 
 print('Accuracy: ' + str(accuracy_score(y_test, y_pred)))
 print('F1 Score: ' + str(f1_score(y_test, y_pred)))
-
-kf = KFold(n_splits=5, shuffle=True, random_state=SEED)
-scores = cross_val_score(model, x_data, y_data, cv=kf, scoring='accuracy')
-
-print(f"Individual 5-fold scores: {scores}")
-print(f"Mean cross-validation score: {np.mean(scores):.4f}")
-print(f"Standard deviation of scores: {np.std(scores):.4f}")
 
 kf = KFold(n_splits=10, shuffle=True, random_state=SEED)
 scores = cross_val_score(model, x_data, y_data, cv=kf, scoring='accuracy')
