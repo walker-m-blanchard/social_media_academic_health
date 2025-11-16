@@ -2,18 +2,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-data = pd.read_csv("data/encoded_student_data.csv")
-
-data.drop(columns=['Student_ID', 'Country', 'Age'], inplace=True)
-
-# Map encoded relationship status values to the original naming
-relationship_map = {
-    0: "Complicated",
-    1: "In Relationship",
-    2: "Single"
-}
-
-data["Relationship_Label"] = data["Relationship_Status"].map(relationship_map)
+data = pd.read_csv("data/student_data.csv")
 
 order = ["Complicated", "In Relationship", "Single"]
 
@@ -21,7 +10,7 @@ order = ["Complicated", "In Relationship", "Single"]
 plt.figure(figsize=(8,5))
 sns.boxplot(
     data=data,
-    x="Relationship_Label",
+    x="Relationship_Status",
     y="Mental_Health_Score",
     order=order,
     palette="colorblind"
@@ -37,7 +26,7 @@ plt.show()
 plt.figure(figsize=(8,5))
 sns.boxplot(
     data=data,
-    x="Relationship_Label",
+    x="Relationship_Status",
     y="Avg_Daily_Usage_Hours",
     order=order,
     palette="colorblind"
@@ -51,7 +40,7 @@ plt.show()
 
 # Usage and Mental Health by Relationship Status
 plt.figure(figsize=(8,6))
-for label, group in data.groupby("Relationship_Label"):
+for label, group in data.groupby("Relationship_Status"):
     corr = group["Avg_Daily_Usage_Hours"].corr(group["Mental_Health_Score"])
     print(f"{label}: correlation = {corr:.3f}")
 
@@ -72,7 +61,7 @@ plt.show()
 
 # Usage and Mental Health by Relationship Status
 plt.figure(figsize=(8,6))
-for label, group in data.groupby("Relationship_Label"):
+for label, group in data.groupby("Relationship_Status"):
     corr = group["Conflicts_Over_Social_Media"].corr(group["Mental_Health_Score"])
     print(f"{label}: correlation = {corr:.3f}")
 
