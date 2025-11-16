@@ -8,7 +8,7 @@ SEED = 42
 
 # Loads data and selects the possible attributes of interest
 student_data = pd.read_csv('data/encoded_student_data.csv')
-student_data.drop(columns=['Student_ID', 'Country', 'Age'], inplace=True)
+student_data.drop(columns=['Student_ID'], inplace=True)
 
 # Drops Affects Academic Performance since it will be used as class
 # Drops Mental Health Score since it is a subjective self-assessment

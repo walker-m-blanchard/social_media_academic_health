@@ -8,7 +8,7 @@ from sklearn.linear_model import LinearRegression
 SEED = 42
 
 student_data = pd.read_csv('data/encoded_student_data.csv')
-student_data.drop(columns=['Student_ID', 'Country', 'Age'], inplace=True)
+student_data.drop(columns=['Student_ID'], inplace=True)
 
 x_data = student_data.drop(columns=['Affects_Academic_Performance', 'Mental_Health_Score', 'Addicted_Score'])
 y_labels = ['Mental_Health_Score', 'Addicted_Score']
