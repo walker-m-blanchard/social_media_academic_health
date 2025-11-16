@@ -49,8 +49,16 @@ plt.show()
 # Calculates and displays the importance of features in the RF model
 importances = pd.Series(final_model.feature_importances_, index=x_data.columns).sort_values(ascending=False)
 
+matcha_palette =[ 
+                "#C9DAB8", 
+                "#A8C686", 
+                "#6B8F4E",
+                "#4F693A",
+                "#234B03"
+]
+
 plt.figure(figsize=(18,12))
-sns.barplot(x=importances.head(10), y=importances.head(10).index)
+sns.barplot(x=importances.head(10), y=importances.head(10).index, color='#6B8F4E')
 plt.title('Feature Importance')
 plt.xlabel('Importance')
 plt.ylabel('Features')
@@ -64,7 +72,7 @@ print("Confusion Matrix:")
 print(confusion_matrix(y_test, y_pred))
 
 cm = confusion_matrix(y_test, y_pred)
-sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
+sns.heatmap(cm, annot=True, fmt='d', cmap=matcha_palette)
 plt.xlabel('Predicted')
 plt.ylabel('Actual')
 plt.show()
