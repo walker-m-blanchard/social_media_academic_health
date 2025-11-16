@@ -2,25 +2,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-encoded = pd.read_csv("data/encoded_student_data.csv")
 data = pd.read_csv("data/student_data.csv")
-
-platform_map = {
-    0: "Facebook",
-    1: "Instagram",
-    2: "KakaoTalk",
-    3: "LINE",
-    4: "LinkedIn",
-    5: "Snapchat",
-    6: "TikTok",
-    7: "Twitter",
-    8: "VKontakte",
-    9: "WeChat",
-    10: "WhatsApp",
-    11: "YouTube"
-}
-
-encoded["Platform_Label"] = encoded["Most_Used_Platform"].map(platform_map)
 
 counts = data["Most_Used_Platform"].value_counts()
 print(counts) 
@@ -43,28 +25,6 @@ order = (
         .sort_values(ascending=False)
         .index
 )
-
-order_enc = (
-    encoded.groupby("Platform_Label")["Mental_Health_Score"]
-        .mean()
-        .sort_values(ascending=False)
-        .index
-)
-
-# Bar Chart: Mental Health vs Platform (Not Condensed)
-plt.figure(figsize=(10,6))
-sns.barplot(
-    data=encoded,
-    x="Mental_Health_Score",
-    y="Platform_Label",
-    order=order_enc,
-    palette="colorblind"
-)
-plt.title("Average Mental Health Score by Platform")
-plt.xlabel("Average Mental Health Score")
-plt.ylabel("Platform")
-plt.tight_layout()
-plt.show()
 
 # Box Plot: Mental Health vs Platform (Condensed)
 plt.figure(figsize=(10,6))

@@ -5,18 +5,24 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, f1_score, classification_report, confusion_matrix
 from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import LabelEncoder
 
 SEED = 42
 
-# Load encoded data
+# Load data
+# original data
+raw = pd.read_csv("data/student_data.csv")
+
+# encoded
 data = pd.read_csv('data/encoded_student_data.csv')
 
-# Drop columns 
-data.drop(columns=['Student_ID', 'Country', 'Age'], inplace=True)
+le = LabelEncoder()
 
 # Separate features (X) and label (y)
-X = data.drop(columns=['Relationship_Status'])
-y = data['Relationship_Status']
+X = data.drop(columns=['Relationship_Status_Complicated',
+    'Relationship_Status_In Relationship',
+    'Relationship_Status_Single'])
+y = le.fit_transform(raw["Relationship_Status"])
 
 # Scale features
 scaler = StandardScaler()
