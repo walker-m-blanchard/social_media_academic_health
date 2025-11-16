@@ -50,9 +50,17 @@ print("Logistic Regression Accuracy:", accuracy_score(y_test, y_pred))
 print("F1 Score:", f1_score(y_test, y_pred, average='weighted'))
 print("Classification Report:\n", classification_report(y_test, y_pred))
 
+matcha_palette =[ 
+                "#C9DAB8", 
+                "#A8C686", 
+                "#6B8F4E",
+                "#4F693A",
+                "#234B03"
+]
+
 # Confusion matrix
 cm = confusion_matrix(y_test, y_pred)
-sns.heatmap(cm, annot=True, fmt='g', cmap='Purples')
+sns.heatmap(cm, annot=True, fmt='g', cmap=matcha_palette)
 plt.title('Logistic Regression Confusion Matrix')
 plt.xlabel('Predicted')
 plt.ylabel('Actual')
