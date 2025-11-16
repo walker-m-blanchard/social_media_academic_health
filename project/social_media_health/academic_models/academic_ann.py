@@ -23,7 +23,7 @@ from tensorflow.keras.layers import Dense, Input
 from tensorflow.keras.optimizers import Adam
 
 # Load encoded data
-data = pd.read_csv('data/encoded_student_data.csv')
+data = pd.read_csv('../data/normalized_student_data.csv')
 
 # Drop columns that do no affect predictability 
 data.drop(columns=['Student_ID'], inplace=True)
@@ -32,13 +32,9 @@ data.drop(columns=['Student_ID'], inplace=True)
 X = data.drop(columns=['Affects_Academic_Performance', 'Mental_Health_Score', 'Addicted_Score'])
 y = data['Affects_Academic_Performance']
 
-# Scale features
-scaler = StandardScaler()
-X_scaled = scaler.fit_transform(X)
-
 # Split training and testing data
 X_train, X_test, y_train, y_test = train_test_split(
-    X_scaled,
+    X,
     y,
     test_size=0.2,
     random_state=SEED,

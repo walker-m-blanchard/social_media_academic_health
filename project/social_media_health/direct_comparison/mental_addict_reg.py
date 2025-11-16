@@ -9,7 +9,7 @@ from collections import Counter
 
 SEED = 42
 
-student_data = pd.read_csv('data/encoded_student_data.csv')
+student_data = pd.read_csv('../data/encoded_student_data.csv')
 
 x_data = student_data[['Addicted_Score']]
 y_data = student_data[['Mental_Health_Score']]

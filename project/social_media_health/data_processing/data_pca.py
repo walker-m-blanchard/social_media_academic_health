@@ -6,7 +6,7 @@ from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 
 # Loads data and selects the possible attributes of interest
-student_data = pd.read_csv('data/encoded_student_data.csv')
+student_data = pd.read_csv('../data/standardized_student_data.csv')
 student_data.drop(columns=['Student_ID'], inplace=True)
 
 # Drops Affects Academic Performance since it will be used as class
@@ -17,7 +17,7 @@ y_data = student_data['Affects_Academic_Performance']
 scaler = StandardScaler()
 x_data_std = scaler.fit_transform(x_data)
 
-x_train, x_test, y_train, y_test = tts(x_data_std, y_data, test_size=0.2, random_state=42, stratify=y_data)
+x_train, x_test, y_train, y_test = tts(x_data_std, y_data, test_size=0.2, random_state=42)
 
 # Calculates eigenvalues
 cov_matrix = np.cov(x_train, rowvar=False)
@@ -32,7 +32,7 @@ plt.ylabel("Eigenvalue")
 plt.show()
 
 # Trains PCA and transforms test data
-pca = PCA(n_components=2)
+pca = PCA(n_components=4)
 x_train_pca = pca.fit_transform(x_train)
 x_test_pca = pca.transform(x_test)
 
@@ -41,6 +41,7 @@ loadings_std = pca.components_.T * np.sqrt(pca.explained_variance_)
 loading_matrix = pd.DataFrame(loadings_std, index=x_data.columns)
 print(loading_matrix)
 
-# Prints scatter plot of the data on the two new PCA axis
-plt.scatter(x_train_pca[:, 0], x_train_pca[:, 1], c=y_train)
-plt.show()
+loading_matrix.to_csv('data/loading_matrix.csv', index=False)
+
+pca_transformed_x = pd.DataFrame(pca.transform(x_data_std))
+pca_transformed_x.to_csv('../data/pca_transformed_x.csv', index=False)

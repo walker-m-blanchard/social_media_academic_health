@@ -8,12 +8,12 @@ import matplotlib.pyplot as plt
 
 SEED = 42
 
-student_data = pd.read_csv('data/encoded_student_data.csv')
+student_data = pd.read_csv('../data/encoded_student_data.csv')
 
 x_data = student_data[['Addicted_Score']]
 y_data = student_data[['Affects_Academic_Performance']]
 
-x_train, x_test, y_train, y_test = tts(x_data, y_data, test_size=0.2, random_state=SEED, stratify=y_data)
+x_train, x_test, y_train, y_test = tts(x_data, y_data, test_size=0.2, random_state=SEED)
 
 model = LogisticRegression(random_state=SEED)
 model.fit(x_train, y_train)
