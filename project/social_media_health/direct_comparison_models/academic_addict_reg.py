@@ -35,8 +35,8 @@ final_model.fit(x_data, y_data)
 y_prob = final_model.predict_proba(x_plot)[:,1]
 
 plt.figure(figsize=[12,8])
-plt.plot(x_plot, y_prob)
-plt.title('Logistic Regression')
-plt.xlabel('Addicted Score')
-plt.ylabel('Affects Academic Performance')
+plt.plot(x_plot, y_prob, color='green')
+plt.title('Social Media Addiction and Academics', fontsize=20)
+plt.xlabel('Social Media Addiction Score', fontsize=16)
+plt.ylabel('Probability Academics Affected', fontsize=16)
 plt.show()

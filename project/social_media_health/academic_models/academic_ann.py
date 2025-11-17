@@ -2,10 +2,10 @@ import os
 import random
 import pandas as pd
 import numpy as np
+import seaborn as sns
 import matplotlib.pyplot as plt
-from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score, f1_score, classification_report
+from sklearn.metrics import accuracy_score, f1_score, classification_report, confusion_matrix
 
 SEED = 42
 
@@ -71,6 +71,13 @@ y_pred = np.round(model.predict(X_test))
 print("Test Accuracy: ", accuracy_score(y_test, y_pred))
 print("Test F1 Score: ", f1_score(y_test, y_pred))
 print("Classification Report:\n", classification_report(y_test, y_pred))
+
+cm = confusion_matrix(y_test, y_pred)
+sns.heatmap(cm, annot=True, fmt='d', cmap='Greens', cbar=False)
+plt.xlabel('Predicts Impacts Academics', fontsize=16)
+plt.ylabel('Actually Impacts Academics', fontsize=16)
+plt.title('ANN Confusion Matrix', fontsize=20)
+plt.show()
 
 corr = data.corr()['Affects_Academic_Performance'].sort_values(ascending=False)
 print(corr)

@@ -1,7 +1,10 @@
 import pandas as pd
-from sklearn.metrics import accuracy_score, f1_score
+import numpy as np
+import seaborn as sns
+from matplotlib import pyplot as plt
+from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.model_selection import train_test_split as tts
+from sklearn.model_selection import train_test_split as tts, KFold, cross_val_score
 
 SEED = 42
 
@@ -18,3 +21,17 @@ y_pred = knn.predict(x_test)
 
 print('KNN Accuracy: ' + str(accuracy_score(y_test, y_pred)))
 print('KNN F1 Score: ' + str(f1_score(y_test, y_pred)))
+
+kf = KFold(n_splits=10, shuffle=True, random_state=SEED)
+scores = cross_val_score(knn, x_data, y_data, cv=kf, scoring='accuracy')
+
+print(f"Individual 10-fold scores: {scores}")
+print(f"Mean cross-validation score: {np.mean(scores):.4f}")
+print(f"Standard deviation of scores: {np.std(scores):.4f}")
+
+cm = confusion_matrix(y_test, y_pred)
+sns.heatmap(cm, annot=True, fmt='d', cmap='Greens', cbar=False)
+plt.xlabel('Predicts Impacts Academics', fontsize=16)
+plt.ylabel('Actually Impacts Academics', fontsize=16)
+plt.title('KNN Confusion Matrix', fontsize=20)
+plt.show()

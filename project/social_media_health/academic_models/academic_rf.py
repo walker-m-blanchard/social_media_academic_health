@@ -22,7 +22,7 @@ y_data = student_data['Affects_Academic_Performance']
 x_train, x_test, y_train, y_test = tts(x_data, y_data, test_size=0.2, random_state=SEED, stratify=y_data)
 
 # Fits and predicts with a random forest decision tree
-rf = RandomForestClassifier(n_estimators=100, random_state=SEED)
+rf = RandomForestClassifier(n_estimators=100, random_state=SEED, max_depth=5, min_samples_split=4, min_samples_leaf=2)
 rf.fit(x_train, y_train)
 y_pred = rf.predict(x_test)
 
@@ -38,7 +38,7 @@ print(f"Mean cross-validation score: {np.mean(scores):.4f}")
 print(f"Standard deviation of scores: {np.std(scores):.4f}")
 
 # Fits and displays final decision tree based on entire dataset
-final_model = RandomForestClassifier(n_estimators=100, random_state=SEED)
+final_model = RandomForestClassifier(n_estimators=100, random_state=SEED, max_depth=5, min_samples_split=4, min_samples_leaf=2)
 final_model.fit(x_data, y_data)
 
 final_tree = final_model.estimators_[0]
@@ -64,7 +64,8 @@ print("Confusion Matrix:")
 print(confusion_matrix(y_test, y_pred))
 
 cm = confusion_matrix(y_test, y_pred)
-sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
-plt.xlabel('Predicted')
-plt.ylabel('Actual')
+sns.heatmap(cm, annot=True, fmt='d', cmap='Greens', cbar=False)
+plt.xlabel('Predicts Impacts Academics', fontsize=16)
+plt.ylabel('Actually Impacts Academics', fontsize=16)
+plt.title('RF Confusion Matrix', fontsize=20)
 plt.show()
