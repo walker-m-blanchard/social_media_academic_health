@@ -74,7 +74,13 @@ print("Classification Report:\n", classification_report(y_test, y_pred))
 
 corr = data.corr()['Affects_Academic_Performance'].sort_values(ascending=False)
 print(corr)
+train_color = '#6B8F4E'
+val_color = '#234B03'
 
-plt.plot(history.history['loss'], label='Train Loss')
-plt.plot(history.history['val_loss'], label='Val Loss')
-plt.legend(); plt.title('Training vs Validation Loss'); plt.show()
+plt.plot(history.history['loss'], label='Train Loss', color=train_color)
+plt.plot(history.history['val_loss'], label='Val Loss', color=val_color)
+plt.legend() 
+plt.title('Training vs Validation Loss') 
+plt.xlabel('Epoch')
+plt.ylabel('Loss')
+plt.show()
