@@ -6,6 +6,8 @@ from sklearn.decomposition import PCA
 from sklearn.preprocessing import LabelEncoder, StandardScaler, MinMaxScaler
 from sklearn.model_selection import train_test_split as tts
 
+SEED = 42
+
 def encoding(data):
     label_encoder = LabelEncoder()
     data['Gender'] = label_encoder.fit_transform(data['Gender'])
@@ -103,4 +105,4 @@ def main(seed):
     return student_data, std_data, nrm_data, pca_data
 
 if __name__ == '__main__':
-    main(42)
+    main(SEED)
