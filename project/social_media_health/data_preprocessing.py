@@ -23,7 +23,7 @@ def encoding(data):
     new_student_data = data.assign(**new_cols)
     new_student_data.drop(columns=['Country', 'Age', 'Most_Used_Platform', 'Relationship_Status'], inplace=True)
 
-    new_student_data.to_csv('../data/encoded_student_data.csv', index=False)
+    new_student_data.to_csv('data/encoded_student_data.csv', index=False)
 
     return new_student_data
 
@@ -41,9 +41,9 @@ def feature_scaling(data, scaling):
     scaled_data[columns] = pd.DataFrame(scaler.fit_transform(data[columns]))
 
     if scaling == 'Normal':
-        scaled_data.to_csv('../data/normalized_student_data.csv', index=False)
+        scaled_data.to_csv('data/normalized_student_data.csv', index=False)
     else:
-        scaled_data.to_csv('../data/standardized_student_data.csv', index=False)
+        scaled_data.to_csv('data/standardized_student_data.csv', index=False)
 
     return scaled_data
 
@@ -68,7 +68,7 @@ def pca(data):
     plt.title('Objective Attributes Variance', fontsize=20)
     plt.xlabel("Component", fontsize=16)
     plt.ylabel("Eigenvalue", fontsize=16)
-    plt.savefig('../figures/eig_vals.png', dpi=300)
+    plt.savefig('figures/eig_vals.png', dpi=300)
 
     # Trains PCA and transforms test data
     pca = PCA(n_components=2)
@@ -78,21 +78,21 @@ def pca(data):
     # Calculates and prints loading matrix from PCA components
     loadings_std = pca.components_.T * np.sqrt(pca.explained_variance_)
     loading_matrix = pd.DataFrame(loadings_std, index=x_data.columns)
-    loading_matrix.to_csv('../data/loading_matrix.csv', index=False)
+    loading_matrix.to_csv('data/loading_matrix.csv', index=False)
 
     # Prints scatter plot of the test data on the two new PCA axis
     plt.figure(figsize=[12, 8])
     plt.scatter(x_test_pca[:, 0], x_test_pca[:, 1], c=y_test)
-    plt.savefig('../figures/pca_test_plot.png', dpi=300)
+    plt.savefig('figures/pca_test_plot.png', dpi=300)
 
     pca_transformed_x = pd.DataFrame(pca.transform(x_data))
-    pca_transformed_x.to_csv('../data/pca_transformed_x.csv', index=False)
+    pca_transformed_x.to_csv('data/pca_transformed_x.csv', index=False)
 
     return pca_transformed_x
 
 def main(seed):
     random.seed(seed)
-    student_data = pd.read_csv('../data/student_data.csv')
+    student_data = pd.read_csv('data/student_data.csv')
 
     student_data = encoding(student_data)
 

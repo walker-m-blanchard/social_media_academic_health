@@ -30,7 +30,7 @@ def mental_health(x_data, y_data):
     plt.xlabel('Social Media Addiction Score', fontsize=16)
     plt.ylabel('Mental Health Score', fontsize=16)
     plt.annotate('R2 Score: ' + str(r2), (7,9))
-    plt.savefig('../figures/addiction_and_mental_regression.png', dpi=300)
+    plt.savefig('figures/addiction_and_mental_regression.png', dpi=300)
 
 def academic(x_data, y_data):
     model = LogisticRegression()
@@ -50,12 +50,12 @@ def academic(x_data, y_data):
     plt.ylabel('Probability Academics Affected', fontsize=16)
     plt.annotate('Accuracy: ' + str(accuracy), (2,0.9))
     plt.annotate('F1: ' + str(f1), (2,0.8))
-    plt.savefig('../figures/addiction_and_academic_regression.png', dpi=300)
+    plt.savefig('figures/addiction_and_academic_regression.png', dpi=300)
 
 def main(seed):
     random.seed(seed)
 
-    student_data = pd.read_csv('../data/encoded_student_data.csv')
+    student_data = pd.read_csv('data/encoded_student_data.csv')
 
     addict_data = student_data[['Addicted_Score']]
     mh_data = student_data[['Mental_Health_Score']]
