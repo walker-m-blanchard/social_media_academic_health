@@ -61,7 +61,7 @@ model.compile(
 history = model.fit(
         X_train, y_train,
         validation_split = 0.2,
-        epochs = 20,
+        epochs = 50,
         batch_size = 5
     )
 
@@ -80,7 +80,7 @@ val_color = '#234B03'
 plt.plot(history.history['loss'], label='Train Loss', color=train_color)
 plt.plot(history.history['val_loss'], label='Val Loss', color=val_color)
 plt.legend() 
-plt.title('Training vs Validation Loss') 
-plt.xlabel('Epoch')
-plt.ylabel('Loss')
+plt.title('Training vs Validation Loss (50 Epochs)') 
+plt.xlabel('Epoch', fontsize = 16)
+plt.ylabel('Loss', fontsize = 16)
 plt.show()
