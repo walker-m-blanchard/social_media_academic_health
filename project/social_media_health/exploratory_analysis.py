@@ -23,12 +23,12 @@ def mental_health(x_data, y_data):
     for i in range(len(x_df)):
         sizes.append(freq[(x_df[i], y_df[i])] * 10)
 
+    plt.rcParams['font.size'] = 16
     plt.figure(figsize=[12,8])
     plt.scatter(x_data, y_data, s=sizes, color='#234B03')
     plt.plot(x_data, y_pred, color='green')
-    plt.title('Social Media Addiction and Mental Health', fontsize=20)
-    plt.xlabel('Social Media Addiction Score', fontsize=16)
-    plt.ylabel('Mental Health Score', fontsize=16)
+    plt.xlabel('Social Media Addiction Score', fontsize=20)
+    plt.ylabel('Mental Health Score', fontsize=20)
     plt.annotate('R2 Score: ' + str(r2), (7,9))
     plt.savefig('figures/addiction_and_mental_regression.png', dpi=300)
 
@@ -43,11 +43,11 @@ def academic(x_data, y_data):
     x_plot = np.linspace(x_data.min(), x_data.max()).reshape(-1, 1)
     y_prob = model.predict_proba(x_plot)[:, 1]
 
+    plt.rcParams['font.size'] = 16
     plt.figure(figsize=[12, 8])
     plt.plot(x_plot, y_prob, color='green')
-    plt.title('Social Media Addiction and Academics', fontsize=20)
-    plt.xlabel('Social Media Addiction Score', fontsize=16)
-    plt.ylabel('Probability Academics Affected', fontsize=16)
+    plt.xlabel('Social Media Addiction Score', fontsize=20)
+    plt.ylabel('Probability Academics Affected', fontsize=20)
     plt.annotate('Accuracy: ' + str(accuracy), (2,0.9))
     plt.annotate('F1: ' + str(f1), (2,0.8))
     plt.savefig('figures/addiction_and_academic_regression.png', dpi=300)

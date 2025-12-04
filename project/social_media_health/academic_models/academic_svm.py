@@ -4,7 +4,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 from sklearn.model_selection import train_test_split as tts, KFold, cross_val_score, GridSearchCV
 from sklearn.svm import SVC
-from sklearn.metrics import classification_report, confusion_matrix, accuracy_score, f1_score
+from sklearn.metrics import classification_report, confusion_matrix, accuracy_score, f1_score, recall_score
 
 SEED = 42
 
@@ -21,22 +21,32 @@ print(classification_report(y_test, y_pred))
 
 print('SVM Accuracy: ' + str(accuracy_score(y_test, y_pred)))
 print('SVM F1 Score: ' + str(f1_score(y_test, y_pred)))
+tn, fp, fn, tp = confusion_matrix(y_test, y_pred).ravel()
+specificity = tn / (tn + fp)
+print("Test Sensitivity: ", recall_score(y_test, y_pred))
+print("Test Specificity: ", specificity)
 
+plt.rcParams['font.size'] = 16
+plt.figure(figsize=[12, 8], dpi=300)
 cm = confusion_matrix(y_test, y_pred)
 sns.heatmap(cm, annot=True, fmt='d', cmap='Greens', cbar=False)
-plt.title('SVM Confusion Matrix', fontsize=20)
-plt.xlabel('Predicts Impacts Academics', fontsize=16)
-plt.ylabel('Actually Impacts Academics', fontsize=16)
-plt.show()
+plt.xlabel('Predicts Impacts Academics', fontsize=20)
+plt.ylabel('Actually Impacts Academics', fontsize=20)
+plt.savefig('../figures/svm_matrix.png', dpi=300)
 
 importances = pd.Series(model.coef_[0], index=x_data.columns).sort_values(ascending=False)
+importances = importances.head(5)
+index = {'Conflicts_Over_Social_Media': 'Conflicts', 'Most_Used_Platform_Snapchat': 'Snapchat',
+         'Avg_Daily_Usage_Hours': 'Hours of Use', 'Academic_Level': 'Academic Level',
+         'Most_Used_Platform_TikTok': 'TikTok'}
+importances.rename(index=index, inplace=True)
 
-plt.figure(figsize=(12,8))
-sns.barplot(x=importances.head(10), y=importances.head(10).index)
-plt.title('Top 10 Feature Importance for SVM')
-plt.xlabel('Importance')
-plt.ylabel('Features')
-plt.show()
+fig, ax = plt.subplots(figsize=[12, 8], dpi=300)
+sns.barplot(x=importances, y=importances.index)
+plt.yticks(fontsize=12)
+plt.xlabel('Importance', fontsize=20)
+plt.ylabel('', fontsize=20)
+plt.savefig('../figures/svm_feat_import.png', dpi=300)
 
 kf = KFold(n_splits=10, shuffle=True, random_state=SEED)
 scores = cross_val_score(model, x_data, y_data, cv=kf, scoring='accuracy')

@@ -5,7 +5,7 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score, f1_score, classification_report, confusion_matrix
+from sklearn.metrics import accuracy_score, f1_score, classification_report, confusion_matrix, recall_score
 
 SEED = 42
 
@@ -70,24 +70,30 @@ y_pred = np.round(model.predict(X_test))
 
 print("Test Accuracy: ", accuracy_score(y_test, y_pred))
 print("Test F1 Score: ", f1_score(y_test, y_pred))
+tn, fp, fn, tp = confusion_matrix(y_test, y_pred).ravel()
+specificity = tn / (tn + fp)
+print("Test Sensitivity: ", recall_score(y_test, y_pred))
+print("Test Specificity: ", specificity)
 print("Classification Report:\n", classification_report(y_test, y_pred))
 
+plt.rcParams['font.size'] = 16
 cm = confusion_matrix(y_test, y_pred)
+plt.figure(figsize=[12, 8], dpi=300)
 sns.heatmap(cm, annot=True, fmt='d', cmap='Greens', cbar=False)
-plt.xlabel('Predicts Impacts Academics', fontsize=16)
-plt.ylabel('Actually Impacts Academics', fontsize=16)
-plt.title('ANN Confusion Matrix', fontsize=20)
-plt.show()
+plt.xlabel('Predicts Impacts Academics', fontsize=20)
+plt.ylabel('Actually Impacts Academics', fontsize=20)
+plt.savefig('../figures/ann_matrix.png', dpi=300)
 
 corr = data.corr()['Affects_Academic_Performance'].sort_values(ascending=False)
 print(corr)
 train_color = '#6B8F4E'
 val_color = '#234B03'
 
+plt.figure(figsize=[12, 8], dpi=300)
 plt.plot(history.history['loss'], label='Train Loss', color=train_color)
 plt.plot(history.history['val_loss'], label='Val Loss', color=val_color)
-plt.legend() 
-plt.title('Training vs Validation Loss (50 Epochs)') 
-plt.xlabel('Epoch', fontsize = 16)
-plt.ylabel('Loss', fontsize = 16)
-plt.show()
+plt.axvline(x=20, color='red', linestyle='--', linewidth=2)
+plt.legend()
+plt.xlabel('Epoch', fontsize = 20)
+plt.ylabel('Loss', fontsize = 20)
+plt.savefig('../figures/train_val_loss.png', dpi=300)
