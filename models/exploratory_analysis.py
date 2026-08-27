@@ -8,12 +8,14 @@ from collections import Counter
 
 SEED = 42
 
+# Plots BSMAS addict score vs mental health score
 def mental_health(x_data, y_data):
     model = LinearRegression()
     model.fit(x_data, y_data)
     y_pred = model.predict(x_data)
     r2 = round(r2_score(y_data, y_pred), 3)
 
+    # Counts frequency of each score pair to plot frequency along with linear regression
     x_df = x_data['Addicted_Score']
     y_df = y_data['Mental_Health_Score']
     points = list(zip(x_df, y_df))
@@ -32,6 +34,7 @@ def mental_health(x_data, y_data):
     plt.annotate('R2 Score: ' + str(r2), (7,9))
     plt.savefig('figures/addiction_and_mental_regression.png', dpi=300)
 
+# Plots BSMAS addict score vs academic impact of social media use
 def academic(x_data, y_data):
     model = LogisticRegression()
     model.fit(x_data, y_data)
@@ -52,6 +55,10 @@ def academic(x_data, y_data):
     plt.annotate('F1: ' + str(f1), (2,0.8))
     plt.savefig('figures/addiction_and_academic_regression.png', dpi=300)
 
+# This script is used to create figures for exploratory analysis of data
+# Compares the BSMAS social media addiction score with both
+# the mental health score and the academic impact of social media use
+# Work being done to convert script into module
 def main(seed):
     random.seed(seed)
 

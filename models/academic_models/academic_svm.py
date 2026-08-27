@@ -8,8 +8,11 @@ from sklearn.metrics import classification_report, confusion_matrix, accuracy_sc
 
 SEED = 42
 
+# This script is used to model a Support Vector Machine of
+# the objective survey data and the academic impact of social media
 x_data = pd.read_csv('../data/standardized_student_data.csv')
-x_data.drop(columns=['Affects_Academic_Performance', 'Mental_Health_Score', 'Addicted_Score', 'Student_ID'], inplace=True)
+x_data.drop(columns=['Affects_Academic_Performance', 'Mental_Health_Score', 'Addicted_Score', 'Student_ID'],
+            inplace=True)
 y_data = pd.read_csv('../data/encoded_student_data.csv')['Affects_Academic_Performance']
 
 x_train, x_test, y_train, y_test = tts(x_data, y_data, test_size=0.2, random_state=SEED, stratify=y_data)
@@ -19,10 +22,11 @@ model.fit(x_train, y_train)
 y_pred = model.predict(x_test)
 print(classification_report(y_test, y_pred))
 
-print('SVM Accuracy: ' + str(accuracy_score(y_test, y_pred)))
-print('SVM F1 Score: ' + str(f1_score(y_test, y_pred)))
 tn, fp, fn, tp = confusion_matrix(y_test, y_pred).ravel()
 specificity = tn / (tn + fp)
+
+print('SVM Accuracy: ' + str(accuracy_score(y_test, y_pred)))
+print('SVM F1 Score: ' + str(f1_score(y_test, y_pred)))
 print("Test Sensitivity: ", recall_score(y_test, y_pred))
 print("Test Specificity: ", specificity)
 
@@ -34,6 +38,7 @@ plt.xlabel('Predicts Impacts Academics', fontsize=20)
 plt.ylabel('Actually Impacts Academics', fontsize=20)
 plt.savefig('../figures/svm_matrix.png', dpi=300)
 
+# Identifies the 5 most important features for the SVM model and compares them with bar graph
 importances = pd.Series(model.coef_[0], index=x_data.columns).sort_values(ascending=False)
 importances = importances.head(5)
 index = {'Conflicts_Over_Social_Media': 'Conflicts', 'Most_Used_Platform_Snapchat': 'Snapchat',
